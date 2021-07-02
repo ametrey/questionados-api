@@ -2,14 +2,22 @@ package ar.com.ada.api.questionados.entities;
 
 import java.util.*;
 
+import javax.persistence.*;
+
+
+
 public class Categoria {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer categoriaId;
     private String nombre;
     private String descripcion;
-    private List<Categoria> categorias = new ArrayList<>();
+
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pregunta> preguntas = new ArrayList<>();
     
+
     public Integer getCategoriaId() {
         return categoriaId;
     }
@@ -28,11 +36,14 @@ public class Categoria {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public List<Categoria> getCategorias() {
-        return categorias;
+    
+    public List<Pregunta> getPreguntas() {
+        return preguntas;
     }
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
+    public void setPreguntas(List<Pregunta> preguntas) {
+        this.preguntas = preguntas;
     }
+  
+    
     
 }

@@ -6,6 +6,6 @@ public class Pregunta {
 
     private Integer preguntaId;
     private String enunciado;
-    private List<Respuesta> opciones;
+    private List<Respuesta> respuestas;
     
 }

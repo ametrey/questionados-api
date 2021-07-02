@@ -8,6 +8,8 @@ public class Categoria {
     private String nombre;
     private String descripcion;
     private List<Categoria> categorias = new ArrayList<>();
+    private List<Pregunta> preguntas = new ArrayList<>();
+    
     public Integer getCategoriaId() {
         return categoriaId;
     }

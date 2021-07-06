@@ -22,8 +22,18 @@ public class CategoriaService {
         return repo.findAll();
     }
 
-    public void crearCategoria(Categoria categoria){
+    public boolean crearCategoria(Categoria categoria){
+        if(existe(categoria.getNombre()))
+            return false;
+
         repo.save(categoria);
+
+        return true;
+    }
+
+    private boolean existe(String nombre) {
+        Categoria categoria = repo.findByNombre(nombre);
+        return categoria != null;
     }
 
     public Categoria buscarCategoria(Integer categoriaId){

@@ -31,17 +31,21 @@ public class CategoriaController{
 
     @PostMapping(value="/categorias")
     public ResponseEntity<?> crearCategoria(@RequestBody Categoria categoria) {
-        //TODO: process POST request
-        
+                
         GenericResponse respuesta = new GenericResponse();
 
-        service.crearCategoria(categoria);
+        if(service.crearCategoria(categoria)){
         
-        respuesta.isOk = true;
-        respuesta.id = categoria.getCategoriaId();
-        respuesta.message = "La categoría fue creada con éxito";
+            respuesta.isOk = true;
+            respuesta.id = categoria.getCategoriaId();
+            respuesta.message = "La categoría fue creada con éxito";
 
         return ResponseEntity.ok(respuesta);
+        } else {
+            respuesta.isOk = false;
+            respuesta.message = "Error. Esta categoría ya existe";
+            return ResponseEntity.badRequest().body(respuesta);
+        }
 
     }
 

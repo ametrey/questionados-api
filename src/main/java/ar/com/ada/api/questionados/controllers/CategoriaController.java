@@ -29,6 +29,11 @@ public class CategoriaController{
         return ResponseEntity.ok(service.traerCategorias());
     }
 
+    @GetMapping("/categorias/{id}")
+    public ResponseEntity<Categoria> traerCategoriaPorId(@PathVariable Integer id){
+        return ResponseEntity.ok(service.buscarCategoria(id));
+    }
+
     @PostMapping(value="/categorias")
     public ResponseEntity<?> crearCategoria(@RequestBody Categoria categoria) {
                 

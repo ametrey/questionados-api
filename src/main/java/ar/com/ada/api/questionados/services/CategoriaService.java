@@ -16,6 +16,8 @@ public class CategoriaService {
     CategoriaRepository repo;
 
 
+
+
     public List<Categoria> traerCategorias() {
         return repo.findAll();
     }
@@ -23,6 +25,19 @@ public class CategoriaService {
     public void crearCategoria(Categoria categoria){
         repo.save(categoria);
     }
+
+    public Categoria buscarCategoria(Integer categoriaId){
+        
+        Optional<Categoria> resultado = repo.findById(categoriaId);
+        Categoria categoria = null;
+
+        if(resultado.isPresent())
+            categoria = resultado.get();
+
+        return categoria;
+    }
+
+    
 
     
 

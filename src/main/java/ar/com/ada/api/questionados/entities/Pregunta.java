@@ -51,7 +51,9 @@ public class Pregunta {
             this.categoria = categoria;
     }
 
-    
+    public void agregarRespuesta(Respuesta respuesta){
+        this.respuestas.add(respuesta);
+    }
     
     
     

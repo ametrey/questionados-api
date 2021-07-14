@@ -4,66 +4,45 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import ar.com.ada.api.questionados.services.CategoriaService;
 import ar.com.ada.api.questionados.entities.Categoria;
 import ar.com.ada.api.questionados.models.response.GenericResponse;
-import ar.com.ada.api.questionados.services.CategoriaService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
-
 
 @RestController
-public class CategoriaController{
+public class CategoriaController {
 
     @Autowired
     private CategoriaService service;
 
-    @GetMapping("/categorias")
-    public ResponseEntity<List<Categoria>> traerCategorias() {
-        return ResponseEntity.ok(service.traerCategorias());
+    //GET /categorias
+    @GetMapping("/categorias") //hacer el mapping
+    public ResponseEntity<List<Categoria>> traerCategorias() { //return Response Entity
+        return ResponseEntity.ok(service.traerCategorias()); //return entity con el valor esperado
     }
 
+    //GET Categoría por Id
     @GetMapping("/categorias/{id}")
-    public ResponseEntity<Categoria> traerCategoriaPorId(@PathVariable Integer id){
+    public ResponseEntity<Categoria> traerCategoriaPorId(@PathVariable Integer id) {
         return ResponseEntity.ok(service.buscarCategoria(id));
     }
 
-    @PostMapping(value="/categorias")
+    @PostMapping(value = "/categorias")
     public ResponseEntity<?> crearCategoria(@RequestBody Categoria categoria) {
-                
-        GenericResponse respuesta = new GenericResponse();
+        GenericResponse r = new GenericResponse();
 
-        if(service.crearCategoria(categoria)){
-        
-            respuesta.isOk = true;
-            respuesta.id = categoria.getCategoriaId();
-            respuesta.message = "La categoría fue creada con éxito";
-
-        return ResponseEntity.ok(respuesta);
+        if (service.crearCategoria(categoria)) {
+            r.id = categoria.getCategoriaId();
+            r.isOk = true;
+            r.message = "Categoria creada con exito";
+            return ResponseEntity.ok(r);
         } else {
-            respuesta.isOk = false;
-            respuesta.message = "Error. Esta categoría ya existe";
-            return ResponseEntity.badRequest().body(respuesta);
+            r.isOk = false;
+            r.message = "Esta categoria ya esta creada";
+            return ResponseEntity.badRequest().body(r);
         }
 
     }
 
-    /*@PutMapping (value = "/categorias/{id}")
-    public ResponseEntity<Categoria> modificarCategoriaPOrId(@PathVariable Integer id){
-        
-        GenericResponse respuesta = new GenericResponse();
-        
-        Categoria categoria = service.buscarCategoria(id);
-
-        categoria.setNombre(nombre);
-        
-    }*/
-    
-    
 }

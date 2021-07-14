@@ -1,6 +1,7 @@
 package ar.com.ada.api.questionados.services;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,20 +9,17 @@ import org.springframework.stereotype.Service;
 import ar.com.ada.api.questionados.entities.Categoria;
 import ar.com.ada.api.questionados.entities.Pregunta;
 import ar.com.ada.api.questionados.entities.Respuesta;
-import ar.com.ada.api.questionados.repositories.PreguntaRepository;
+import ar.com.ada.api.questionados.repos.PreguntaRepository;
 
 @Service
 public class PreguntaService {
 
     @Autowired
     PreguntaRepository repo;
-
+    
     @Autowired
     CategoriaService categoriaService;
 
-    public List<Pregunta> traerPreguntas() {
-        return repo.findAll();
-    }
 
     public Pregunta buscarPreguntaPorId(Integer preguntaId) {
 
@@ -29,25 +27,28 @@ public class PreguntaService {
 
         if (resultado.isPresent())
             return resultado.get();
-        
+
         return null;
     }
 
-    public Pregunta crearPregunta(String enunciado, Integer categoriaId, List<Respuesta> opciones) {
+    public List<Pregunta> traerPreguntas() {
+        return repo.findAll();
+    }
 
+    public Pregunta crearPregunta(String enunciado, Integer categoriaId, List<Respuesta> opciones ) {
+        
         Pregunta pregunta = new Pregunta();
         pregunta.setEnunciado(enunciado);
 
         Categoria categoria = categoriaService.buscarCategoria(categoriaId);
 
         pregunta.setCategoria(categoria);
-
+      
         for (Respuesta respuesta: opciones) {
             respuesta.setPregunta(pregunta);
         }
-
+        
         repo.save(pregunta);
         return pregunta;
     }
-    
 }

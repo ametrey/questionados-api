@@ -2,4 +2,4 @@
 
 Api basada en un famoso juego.
 
-Heroku App: https://ada-questionados.herokuapp.com/
+Heroku App: https://ada-questionados.herokuapp.com/questionados.html
